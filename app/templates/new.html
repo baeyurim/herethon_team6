@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="POST" enctype='multipart/form-data'>
+    {% csrf_token %}
+    <table class = "t">
+        <tr><td>제목</td><td>{{form.title}}</td></tr>
+        <tr><td>내용</td><td>{{form.body}}</td></tr>
+        <tr><td>장소</td><td>{{form.place}}</td></tr>
+        <tr><td>교통수단</td><td>{{form.transportation}}</td></tr>
+        <tr><td>인원</td><td>{{form.person}}</td></tr>
+        <tr><td>예산</td><td>{{form.budget}}</td></tr>
+    </table>
+    <input type="file" name="image">
+    <input type="submit" value="SAVE">
+</form>
+
+{% endblock %}

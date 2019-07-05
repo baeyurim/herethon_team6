@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<head>
+ <link rel="stylesheet" type="text/css" href="static/style.css">
+
+<section class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <div style="display: flex;
+        align-items: center; margin-bottom: 20px;">
+            <img src="https://cdn0.iconfinder.com/data/icons/interior-and-decor-vol-1-1/512/11-512.png" alt="" style="width: 50px; margin: 3px;">
+            <h1 class="jumbotron-heading title_in_main" style="display: inline-block; margin-bottom: 0px;"> &nbsp제목 :&nbsp</h1>
+            <h1 class="jumbotron-heading title_in_main" style="display: inline-block; margin-bottom: 0px;"> {{trip.title}} &nbsp</h1>
+            <img src="https://cdn0.iconfinder.com/data/icons/interior-and-decor-vol-1-1/512/11-512.png" alt="" style="width: 50px; margin: 3px;"><br><br><br><br><br>
+        </div>
+
+        <ul class="list-group list-group-horizontal-md">
+            <li class="list-group-item">일자 &nbsp: &nbsp{{trip.date}} </li>
+            <li class="list-group-item">장소 &nbsp:&nbsp {{trip.place}} </li>
+            <li class="list-group-item">예산 &nbsp: &nbsp{{trip.budget}} </li>
+            <li class="list-group-item">인원 수 &nbsp: &nbsp{{trip.person}} </li>
+            <li class="list-group-item">교통수단&nbsp :&nbsp {{trip.transportation}} </li>
+            <li class="list-group-item">글쓴이 &nbsp: &nbsp{{trip.writer}} </li>
+        </ul><br><br>
+
+        <img src="{{ trip.image.url }}" class="rounded mx-auto d-block" width="500px" height="500px"><br>
+
+        <div class="container" style="text-align: center;
+        background-color: rgb(251, 252, 249);
+        display: flex;
+        justify-content: center;
+        height:500px;
+        align-items: center;">
+            <div style="display: inline-block;">
+                <h4> 본문 내용 : </h4>
+                <p class="lead text-muted"> {{trip.body}} </p><br><br>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+{% if user.username == trip.writer %}
+    <div class="container">
+        <a href="{% url 'edit' trip.id %}" class="badge badge-primary">수정</a>
+        <a href="{% url 'delete' trip.id %}" class="badge badge-secondary">삭제</a><br><br><br>
+    </div>
+{% endif %}
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <img src="https://cdn0.iconfinder.com/data/icons/spreadsheet-charts-comments-edits-attachments/49/slice419-512.png" alt="" style="width: 40px; margin: 10px;">
+        <h1 class="jumbotron-heading title_in_main" style="display: inline-block; margin-bottom: 0px;"> 댓글보기 </h1><br><br>
+
+    {% for comment in trip.comments.all %}
+        <img src="https://cdn2.iconfinder.com/data/icons/social-hand-drawn-icons/64/social_10-512.png" alt="" style="width: 40px; margin: 10px;">&nbsp;{{comment.com_writer}} &nbsp;</span>
+        <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-right-01-512.png" alt="" style="width: 40px; margin: 10px;">&nbsp; {{ comment.contents }} &nbsp;</span>
+        {% if user.username == comment.com_writer %}
+            <a href="{% url 'comment_delete' trip.id comment.id %}"  class="badge badge-secondary">삭제</a>
+        {% endif %}<br>
+    {% endfor %}<br>
+</div>
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <img src="https://cdn0.iconfinder.com/data/icons/spreadsheet-charts-comments-edits-attachments/49/slice419-512.png" alt="" style="width: 40px; margin: 10px;">
+        <h1 class="jumbotron-heading title_in_main" style="display: inline-block; margin-bottom: 0px;">댓글 달기</h1><br><br>
+        <form action="{% url 'comment_create' trip.id %}" method=POST>{% csrf_token %}
+            <input type="text" name="contents">
+            <button type="submit" >SAVE</button>
+        </form>
+    </div>
+</div>
+</head>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<form method="GET" action="{% url 'home' %}">
+<select name="sel_budget" size="1">
+    <option value="10만원 미만" selected>10만원 미만</option>
+    <option value="10-20만원 미만">10-20만원 미만</option>
+    <option value="20-30만원 미만">20-30만원 미만</option>
+</select>
+
+<select name="sel_place" size="1">
+    <option value="서울" selected>서울</option>
+    <option value="경기">경기</option>
+    <option value="강원">강원</option>
+    <option value="부산">부산</option>
+    <option value="인천">인천</option>
+    <option value="광주">광주</option>
+    <option value="충청">충청</option>
+    <option value="전라">전라</option>
+    <option value="경상">경상</option>
+    <option value="제주">제주</option>
+    <option value="대구">대구</option>
+    <option value="대전">대전</option>
+</select>
+ <select name="sel_transportation" size="1">
+    <option value="버스" selected>버스</option>
+    <option value="지하철">지하철</option>
+    <option value="자동차">자동차</option>
+</select>
+    <button type="submit" >검색</button>
+</form>
+
+<a href="promotion">홍보 자세히</a>
+       
+<br><br>
+    {% for i in posts %}
+    <div class="col-md-6">
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-primary">{{i.title}}</strong>
+                <p class="card-text mb-auto">{{i.sum}}...</p>
+            <a href="{% url 'detail' i.id %}" class="stretched-link"> 자세히 </a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+                <img src="{{i.image.url}}" width="200" height="250">
+            </div>
+        </div>
+    </div>
+ 
+    {% endfor %}
+ 
+
+    <footer class="blog-footer">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {%if posts.has_previous%}
+            <li><a class="page-link" href="?page=1">First</a></li>
+            <li><a class="page-link" href="?{{posts.previous_page_number}}" >Previous</a></li>
+            {%endif%}
+            
+            {% for page in posts.paginator.page_range%}
+            {% if page == posts.number %}
+            <li class="page-item "><a class="page-link disabled">{{ page }}</a></li>
+            {% else %} 
+        <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% endif %}
+            {% endfor %} 
+            {%if posts.has_next%}
+            <li><a class="page-link" href="?page={{posts.next_page_number}}">Next</a></li>
+            <li><a class="page-link" href="?page={{posts.paginator.num_pages}}">Last</a></li>
+            {%endif%}
+        </ul>
+        </nav>
+    </footer>
+
+
+{% endblock %}
