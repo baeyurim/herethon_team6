@@ -10,12 +10,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '6p0evi6y)4!92!&h*na&_)y#=5*hnsy!@xii50%ph8nxm)il4j'
-SECRET_KEY = os.envoron.get('DJANGO_SECRET_KEY', '6p0evi6y)4!92!&h*na&_)y#=5*hnsy!@xii50%ph8nxm)il4j')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '6p0evi6y)4!92!&h*na&_)y#=5*hnsy!@xii50%ph8nxm)il4j')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
